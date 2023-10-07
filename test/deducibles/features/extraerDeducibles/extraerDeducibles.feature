@@ -4,5 +4,5 @@ Feature: Procesar deducible
         When ejecutamos el conversor de deducible
         Then obtenemos la parametrización del deducible en <detalle>
         Examples:
-            | texto      | detalle    |
-            | D22Request | D22Request |
+            | texto      | detalle     |
+            | D22Request | D22Response |
