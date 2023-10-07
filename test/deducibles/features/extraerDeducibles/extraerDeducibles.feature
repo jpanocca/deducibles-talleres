@@ -1,8 +1,8 @@
-Feature: Extrae los deducibles de un texto plano
-    Scenario Outline: Extrae los deducibles correctamente
-        Given se invoca el metodo de extraccion de deducibles del texto <textoPlano>
-        When se invoca a demanda
-        Then se mostrará el objeto
+Feature: Procesar deducible
+    Scenario Outline: Póliza con deducible texto plano
+        Given la póliza tiene un deducible en forma del <texto>
+        When ejecutamos el conversor de deducible
+        Then obtenemos la parametrización del deducible en <detalle>
         Examples:
-            | textoPlano |
-            | $20        |
+            | texto      | detalle    |
+            | D22Request | D22Request |
