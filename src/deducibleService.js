@@ -8,9 +8,10 @@ module.exports = {
             texto = texto.replace(/\n/g, "");
             const metodosDisponibles = {
                 evaluaPatron1: DeducibleSupport.evaluaPatron1,
-                evaluaPatron2: DeducibleSupport.evaluaPatron2
+                evaluaPatron2: DeducibleSupport.evaluaPatron2,
+                evaluaPatron3: DeducibleSupport.evaluaPatron3
             }
-            const metodos = ['evaluaPatron1', 'evaluaPatron2'];
+            const metodos = ['evaluaPatron1', 'evaluaPatron2', 'evaluaPatron3'];
             for (const metodo of metodos) {
                 const funcionMetodo = metodosDisponibles[metodo];
                 resultado = await funcionMetodo(texto);
@@ -22,6 +23,6 @@ module.exports = {
             return resultado;            
         } catch (error) {
             return error;
-        }        
+        }    
     }
 }
