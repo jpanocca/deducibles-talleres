@@ -1,4 +1,4 @@
-const { obtieneTipoMoneda } = require("./deducibleMapper");
+const { obtieneTipoMoneda, obtieneTipo } = require("./deducibleMapper");
 
 module.exports = {
     async evaluaPatron1(texto){
@@ -61,12 +61,12 @@ module.exports = {
         let match;
         const payload = [];
         while ((match = regex.exec(text)) !== null) {
-        const [_, deducible, moneda, copago, ] = match;
+        const [_, deducible, moneda, copago, tipo] = match;
         payload.push({
             copago: parseInt(copago),
             deducible: parseInt(deducible),
             moneda: await obtieneTipoMoneda(moneda),
-            tipo: 'NO TIPO',
+            tipo: await obtieneTipo(tipo),
             marca: 'NO MARCA',
             taller: 'NO TALLER'
             });

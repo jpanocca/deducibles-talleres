@@ -54,7 +54,7 @@ module.exports.MOCKS = {
                 "deducible": 15,
                 "copago": 150,
                 "moneda": "USD",
-                "tipo": "Multimarca",
+                "tipo": "NO TIPO",
                 "marca": "NO MARCA",
                 "taller": "NO TALLER"
             },
