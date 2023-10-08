@@ -1,6 +1,8 @@
+const { evaluaPatron } = require("./deducibleService");
+
 module.exports = {
-  async extraerDeducible(payload){
-    console.log("Este es un texto: " + payload);
-    return payload;
+  async extraerDeducible(rq){
+    const result = evaluaPatron(rq.payload.text);
+    return result;
   }
 }
