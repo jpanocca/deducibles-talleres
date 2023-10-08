@@ -5,7 +5,6 @@ module.exports = {
     async evaluaPatron(texto){
         try {
             let resultado;
-            texto = texto.replace(/\n/g, "");
             const metodosDisponibles = {
                 evaluaPatron1: DeducibleSupport.evaluaPatron1,
                 evaluaPatron2: DeducibleSupport.evaluaPatron2,

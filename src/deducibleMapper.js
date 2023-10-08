@@ -9,5 +9,12 @@ module.exports = {
             result = MONEDA.USD.codigo;
         }
         return result;
+    },
+    async obtieneTipo(tipo){
+        let result = 'NO TIPO';
+        if (tipo && tipo.includes('Multimarca')) {
+            result = 'Multimarca';
+        }
+        return result;
     }
 }
