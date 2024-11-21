@@ -3,9 +3,6 @@ const { obtieneTipoMoneda, obtieneTipo } = require("./deducibleMapper");
 module.exports = {
     async evaluaPatron1(texto){
         const valoresRoboParcial = /Robo Parcial (\d+)% del monto a indemnizar, mínimo (US\$|S\/.)(\d+\.\d+)/i.exec(texto);
-        const valoresSiniestros = /Siniestros.+atendidos .+ talleres preferenciales (\d+)% del monto .+ mínimo (US\$|S\/.)(\d+\.\d+)/i.exec(texto);
-        const valoresRoboAccesorios = /Robo de accesorios Musicales (\d+)% del monto .+ mínimo (US\$\d+\.\d{2}|S\/.\d+\.\d{2}|\d+\.\d{2})/i.exec(texto);
-        const valoresRC = /Responsabilidad civil (\d+)% del monto .+ mínimo (US\$\d+\.\d{2}|S\/.\d+\.\d{2}|\d+\.\d{2})/i.exec(texto);
         if( valoresRoboParcial && valoresRoboParcial.length > 0 ){
             const copago = valoresRoboParcial[3];
             const deducible = valoresRoboParcial[1];
