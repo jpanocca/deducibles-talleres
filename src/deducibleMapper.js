@@ -12,7 +12,7 @@ module.exports = {
     },
     async obtieneTipo(tipo){
         let result = 'NO TIPO';
-        if (tipo && tipo.includes('Multimarca')) {
+        if (tipo?.includes('Multimarca')) {
             result = 'Multimarca';
         }
         return result;
