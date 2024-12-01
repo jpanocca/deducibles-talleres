@@ -15,7 +15,7 @@ module.exports.MOCKS = {
         "payload": [ 
            {
                "deducible": 10,
-               "copago": 150, 
+               "copago": 150,
                "moneda": "USD", 
                "tipo": "NO TIPO", 
                "marca": "NO MARCA", 
@@ -54,7 +54,7 @@ module.exports.MOCKS = {
                 "deducible": 15,
                 "copago": 150,
                 "moneda": "USD",
-                "tipo": "NO TIPO",
+                "tipo": "Multimarca",
                 "marca": "NO MARCA",
                 "taller": "NO TALLER"
             },
@@ -140,7 +140,7 @@ module.exports.MOCKS = {
                 "moneda": "USD",
                 "tipo": "NO TIPO",
                 "marca": "NO MARCA",
-                "taller": "Nissan Maquinarias"
+                "taller": "NISSAN MAQUINARIAS"
             },
             {
                 "deducible": 10,

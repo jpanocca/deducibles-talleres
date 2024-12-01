@@ -2,26 +2,29 @@ const DeducibleSupport = require("./deducibleSupport");
 const { validador } = require("./deducibleValidator");
 
 module.exports = {
-    async evaluaPatron(texto){
+    async evaluaPatron(texto) {
         try {
-            let resultado;
-            const metodosDisponibles = {
-                evaluaPatron1: DeducibleSupport.evaluaPatron1,
-                evaluaPatron2: DeducibleSupport.evaluaPatron2,
-                evaluaPatron3: DeducibleSupport.evaluaPatron3
-            }
-            const metodos = ['evaluaPatron1', 'evaluaPatron2', 'evaluaPatron3'];
+            const metodos = [
+                DeducibleSupport.evaluaPatron,
+                DeducibleSupport.evaluaPatron1,
+                DeducibleSupport.evaluaPatron2,
+                DeducibleSupport.evaluaPatron3,
+                DeducibleSupport.evaluaPatron4,
+                DeducibleSupport.evaluaPatron5
+            ];
+
             for (const metodo of metodos) {
-                const funcionMetodo = metodosDisponibles[metodo];
-                resultado = await funcionMetodo(texto);
+                const resultado = await metodo(texto);
                 const validacion = await validador(resultado);
-                if(!validacion.error){
-                    break;
+                if (!validacion.error) {
+                    return resultado;
                 }
             }
-            return resultado;            
+
+            throw new Error("No se encontró un patrón válido");
+
         } catch (error) {
-            return error;
-        }    
+            return { error: error.message };
+        }
     }
 }
