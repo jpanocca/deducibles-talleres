@@ -7,6 +7,14 @@ const DEFAULTS = {
     TALLER: "NO TALLER"
 };
 
+const CONSTANTS = {
+    MULTIMARCA: "multimarca",
+    TALLERES: "talleres",
+    TALLERES_AFILIADOS: "talleres afiliados",
+    AFILIADOS: "afiliados",
+    MULTIMARCA_CAP: "Multimarca"
+};
+
 async function crearResultado(deducible, copago, moneda, tipo = DEFAULTS.TIPO, marca = DEFAULTS.MARCA, taller = DEFAULTS.TALLER) {
     return {
         payload: [
@@ -79,11 +87,12 @@ module.exports = {
         text = text.toLowerCase();
         const resultados = [];
         const patrones = patterns.evaluaPatronPattern;
-        const cantidadTalleresEncontrados = text.match(patrones.cantidadTalleresPattern) || [];
+
         const deduciblesEncontrados = text.match(patrones.deduciblePattern) || [];
         const copagosEncontrados = text.match(patrones.copagoPattern) || [];
         const talleresEncontrados = text.match(patrones.tallerPattern) || [];
-        const tiposTallerEncontrados = text.match(patrones.tipoTallerPattern) || [];        
+        const tiposTallerEncontrados = text.match(patrones.tipoTallerPattern) || [];
+        const cantidadTalleresEncontrados = text.match(patrones.cantidadTalleresPattern) || [];
 
         const totalMatches = Math.min(
             deduciblesEncontrados.length,
@@ -93,39 +102,38 @@ module.exports = {
         );
 
         for (let i = 0; i < totalMatches; i++) {
-            const marcasEncontradas = text.match(patrones.marcaPattern);
+            const copago = Number(copagosEncontrados[i].match(/\d+(\.\d{1,2})?/)[0]);
+            const moneda = copagosEncontrados[0].toUpperCase().includes('US$') ? 'USD' : 'PEN';
             const porcentajeDeducible = deduciblesEncontrados[i].trim().match(/(\d+%|\d.+%)/gi);
             const deducible = porcentajeDeducible ? Number(porcentajeDeducible[0].trim().split('%')[0]) : 0;
-
-            const copago = Number(copagosEncontrados[i].match(/[0-9999.99]{1,6}/)?.[0]);
-            const moneda = copagosEncontrados[0].toUpperCase().includes('US$') ? 'USD' : 'PEN';;
+            const marcasEncontradas = text.match(patrones.marcaPattern);          
 
             const tipo =
                 tiposTallerEncontrados && tiposTallerEncontrados[i]
-                    ? tiposTallerEncontrados[i].split('talleres afiliados')[1]
-                        ? tiposTallerEncontrados[i].split('talleres afiliados')[1].trim() !== ''
-                            ? tiposTallerEncontrados[i].split('talleres afiliados')[1].trim()
+                    ? tiposTallerEncontrados[i].split(CONSTANTS.TALLERES_AFILIADOS)[1]
+                        ? tiposTallerEncontrados[i].split(CONSTANTS.TALLERES_AFILIADOS)[1].trim() !== ''
+                            ? tiposTallerEncontrados[i].split(CONSTANTS.TALLERES_AFILIADOS)[1].trim()
                             : DEFAULTS.TIPO
                         : DEFAULTS.TIPO
                     : DEFAULTS.TIPO;
 
             const marca =
-                marcasEncontradas && marcasEncontradas.length > 0 && marcasEncontradas[1] !== 'multimarca'
-                    ? marcasEncontradas[1].trim().split('multimarca')
+                marcasEncontradas && marcasEncontradas.length > 0 && marcasEncontradas[1] !== CONSTANTS.MULTIMARCA
+                    ? marcasEncontradas[1].trim().split(CONSTANTS.MULTIMARCA)
                     : DEFAULTS.MARCA;
 
             const taller =
-                (talleresEncontrados[i] && talleresEncontrados[i].includes('afiliados')) || talleresEncontrados[i].includes('otros')
+                (talleresEncontrados[i] && talleresEncontrados[i].includes(CONSTANTS.AFILIADOS)) || talleresEncontrados[i].includes('otros')
                     ? DEFAULTS.TALLER
-                    : talleresEncontrados[i].split('talleres').length > 0
-                        ? talleresEncontrados[i].split('talleres')[1].trim()
+                    : talleresEncontrados[i].split(CONSTANTS.TALLERES).length > 0
+                        ? talleresEncontrados[i].split(CONSTANTS.TALLERES)[1].trim()
                         : DEFAULTS.TALLER;
 
             const deducibleInfo = {
                 deducible,
                 copago,
                 moneda,
-                tipo: tipo === 'multimarca' ? 'Multimarca' : tipo,
+                tipo: tipo === CONSTANTS.MULTIMARCA ? CONSTANTS.MULTIMARCA_CAP : tipo,
                 marca,
                 taller: taller.toUpperCase(),
             };
@@ -152,7 +160,7 @@ module.exports = {
             const copago = copagoMatch ? copagoMatch[0].split(/US\$|S\/\./)[1].trim() : null;
             const taller = DEFAULTS.TALLER;
             const marca = marcaMatch ? marcaMatch[0].toUpperCase() : DEFAULTS.MARCA;
-            const tipo = match.includes('multimarca') ? 'Multimarca' : DEFAULTS.TIPO;
+            const tipo = match.includes(CONSTANTS.MULTIMARCA) ? CONSTANTS.MULTIMARCA_CAP : DEFAULTS.TIPO;
             const moneda = copagoMatch[0].includes('US$') ? 'USD' : 'PEN';
             matches.push({
                 "deducible": parseFloat(deducible),
